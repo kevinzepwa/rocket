@@ -62,9 +62,14 @@ defmodule Rocket do
   Extra fuel mass needed given that adding fuel increases the mass of the ship. I thought we could apply some recursion here.
   """
 
+  #this won't work, why !!!!! let brew some coffee first.
   def my_rocket_fuel(simulate), do: simulate.fuel
+  def start_fuel(simulate), do: simulate.fuel
 
-
+  def added_simulate(rocket, start_fuel, my_rocket_fuel, status)
+      when start_fuel > 0, 
+      do: my_rocket_fuel + add_fuel(my_rocket_fuel, rocket.gravity, status)
+      # my_rocket_fuel - add_fuel(my_rocket_fuel, rocket.gravity, status)
 
 end
 
