@@ -3,18 +3,23 @@ defmodule RocketTest do
   doctest Rocket
 
   test "create rocket properties" do
-    assert Rocket.create(0, 250, 10.2) == %Rocket{fuel: 0, mass: 250, gravity: 10.2}
+    assert Rocket.create(0, 25000, :earth) == %Rocket{fuel: 0, gravity: :earth, mass: 25000}
   end
 
   test "create errors if invalid properties" do
     invalid_mass = {:error, "invalid mass"}
-   
-    assert Rocket.create(:full_tank, :invalid, :gravity) == invalid_mass
-   end
-
-  #to be modified for flexible g.
-  test "simulate fueling instructions" do
-    assert Rocket.create(0, 50, 11) |> Rocket.simulate("B") ==
-      %Rocket{fuel: -12.0, mass: 50, gravity: 11}
+    invalid_gravity = {:error, "invalid gravity"}
+  
+    assert Rocket.create(0, :invalid, :earth) == invalid_mass
+    assert Rocket.create(0, 45, :invalid) == invalid_gravity
   end
+
+  test "simulate fueling instructions" do
+    assert Rocket.create(0, 45, :mars) |> Rocket.simulate("B") ==
+      %Rocket{fuel: -25.98621, gravity: :mars, mass: 45}
+
+    assert Rocket.create(0, 28801, :mars) |> Rocket.simulate("A") ==
+      %Rocket{fuel: 3485.0568630000002, gravity: :mars, mass: 28801}
+  end
+
 end
