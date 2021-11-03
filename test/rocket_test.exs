@@ -16,10 +16,12 @@ defmodule RocketTest do
 
   test "simulate fueling instructions" do
     assert Rocket.create(0, 45, :mars) |> Rocket.simulate("B") ==
-      %Rocket{fuel: -25.98621, gravity: :mars, mass: 45}
+      %Rocket{fuel: -25, gravity: :mars, mass: 45}
 
     assert Rocket.create(0, 28801, :mars) |> Rocket.simulate("A") ==
-      %Rocket{fuel: 3485.0568630000002, gravity: :mars, mass: 28801}
+      %Rocket{fuel: 3485, gravity: :mars, mass: 28801}
+
+    assert Rocket.simulate(%Rocket{fuel: 0, gravity: :earth, mass: 25000}, "A" == %Rocket{fuel: 8048, gravity: :earth, mass: 25000}
   end
 
 end
