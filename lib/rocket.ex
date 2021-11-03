@@ -64,13 +64,7 @@ defmodule Rocket do
 
   def my_rocket_fuel(simulate), do: simulate.fuel
 
-  # defp add_extra_fuel(simulate, rocket) 
-  #     when simulate.fuel > 0,
-  #     do: %{simulate | fuel: add_fuel(simulate.fuel, rocket.gravity, status)}
 
-  # defp add_extra_fuel(simulate)
-  #     when simulate.fuel == 0,
-  #     do: :ok
 
 end
 
