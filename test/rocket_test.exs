@@ -21,7 +21,7 @@ defmodule RocketTest do
     assert Rocket.create(0, 28801, :mars) |> Rocket.simulate("A") ==
       %Rocket{fuel: 3485, gravity: :mars, mass: 28801}
 
-    assert Rocket.simulate(%Rocket{fuel: 0, gravity: :earth, mass: 25000}, "A" == %Rocket{fuel: 8048, gravity: :earth, mass: 25000}
+    assert Rocket.simulate(%Rocket{fuel: 0, gravity: :earth, mass: 25000}, "A") == %Rocket{fuel: 8048, gravity: :earth, mass: 25000}
   end
 
 end

@@ -39,39 +39,32 @@ defmodule Rocket do
   end
 
   @doc """
-  Apply the functionality for landing and launching NB: This doc for private fn will be discarded in iex
-  """
-  defp apply_status(rocket, status)
-      when status in ["A", "B"],
-      do: %{rocket | fuel: add_fuel(rocket.mass, rocket.gravity, status)}
+  Apply the functionality for landing and launching.
+  """ 
+  def apply_status(rocket, status) do
+    add_fuel(rocket.mass, rocket.gravity, status)
+  end
 
   @doc """
   Use a pattern matching algorith to get the fuel based on gravity
-  """
+  """  
   # landing
-  defp add_fuel(mass, :earth, "A"), do: (mass * 9.807 * 0.033 - 42 |> trunc())
-  defp add_fuel(mass, :moon, "A"), do: (mass * 1.62 * 0.033 - 42 |> trunc())
-  defp add_fuel(mass, :mars, "A"), do: (mass * 3.711 * 0.033 - 42 |> trunc())
+  def add_fuel(mass, :earth, "A"), do: (mass * 9.807 * 0.033 - 42 |> trunc())
+  def add_fuel(mass, :moon, "A"), do: (mass * 1.62 * 0.033 - 42 |> trunc())
+  def add_fuel(mass, :mars, "A"), do: (mass * 3.711 * 0.033 - 42 |> trunc())
 
   # launching
-  defp add_fuel(mass, :earth, "B"), do: (mass * 9.807 * 0.042 - 33 |> trunc())
-  defp add_fuel(mass, :moon, "B"), do: (mass * 1.62 * 0.042 - 33  |> trunc())
-  defp add_fuel(mass, :mars, "B"), do: (mass * 3.711 * 0.042 - 33 |> trunc())
+  def add_fuel(mass, :earth, "B"), do: (mass * 9.807 * 0.042 - 33 |> trunc())
+  def add_fuel(mass, :moon, "B"), do: (mass * 1.62 * 0.042 - 33  |> trunc())
+  def add_fuel(mass, :mars, "B"), do: (mass * 3.711 * 0.042 - 33 |> trunc())
 
   @doc """
-  Extra fuel mass needed given that adding fuel increases the mass of the ship. I thought we could apply some recursion here.
+  Extra fuel mass needed given that adding fuel increases the mass of the ship. 
   """
 
-  #this won't work, why !!!!! let brew some coffee first.
-  def my_rocket_fuel(simulate), do: simulate.fuel
-  def start_fuel(simulate), do: simulate.fuel
-
-  def added_simulate(rocket, start_fuel, my_rocket_fuel, status)
-      when start_fuel > 0, 
-      do: my_rocket_fuel + add_fuel(my_rocket_fuel, rocket.gravity, status)
-      # my_rocket_fuel - add_fuel(my_rocket_fuel, rocket.gravity, status)
-
 end
+
+
 
 
 # example for Apollo 11 Command and Service Module, with a weight of 28801 kg, to land it on the Earth, the required amount of fuel will be:
