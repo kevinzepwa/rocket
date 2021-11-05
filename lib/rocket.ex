@@ -40,10 +40,17 @@ defmodule Rocket do
 
   @doc """
   Apply the functionality for landing and launching.
-  """ 
-  def apply_status(rocket, status) do
+  """
+  def apply_status(rocket, status), do:
     add_fuel(rocket.mass, rocket.gravity, status)
-  end
+
+  def fuel_and_mass(rocket, status), do:
+    %{rocket | mass: rocket.mass + add_fuel(rocket.mass, rocket.gravity, status)}
+
+  # returns new rocket mass and fuel
+  def to_fuel(rocket, status), do:
+    %{rocket | fuel: rocket.fuel + add_fuel(rocket.mass, rocket.gravity, status), mass: rocket.fuel + add_fuel(rocket.mass, rocket.gravity, status)}
+    #|> Rocket.to_fuel(status)
 
   @doc """
   Use a pattern matching algorith to get the fuel based on gravity
@@ -60,16 +67,21 @@ defmodule Rocket do
 
   @doc """
   Extra fuel mass needed given that adding fuel increases the mass of the ship. 
-  """
-
+  """ 
+  
+  # def recurse(rocket, apply_status, add_fuel, simulate, status) when simulate > 0, 
+    # do:  %{rocket | mass: add_fuel(rocket.mass, rocket.gravity, status)}
+    # recurse(rocket, apply_status, add_fuel, (simulate - add_fuel(rocket.mass, rocket.gravity, status)), status)
 end
 
 
 
 
 # example for Apollo 11 Command and Service Module, with a weight of 28801 kg, to land it on the Earth, the required amount of fuel will be:
-# Rocket.create(0, 28801, :earth) |> Rocket.simulate("A") →  %Rocket{fuel: 9278, gravity: :earth, mass: 28801}
+# Rocket.create(0, 28801, :earth) |> Rocket.simulate("A") →  9278
 
 # for Apollo 11 CSM to launch from moon:
-# Rocket.create(0, 28801, :moon) |> Rocket.simulate("B") → %Rocket{fuel: 1926, gravity: :moon, mass: 28801}
+# Rocket.create(0, 28801, :moon) |> Rocket.simulate("B") → 1926
+
+#Rocket.create(0, 28801, :moon) |> Rocket.to_fuel("B") → %Rocket{fuel: 1926, gravity: :moon, mass: 1926}
 
