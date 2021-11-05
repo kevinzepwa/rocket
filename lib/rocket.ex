@@ -49,8 +49,21 @@ defmodule Rocket do
 
   # returns new rocket mass and fuel
   def to_fuel(rocket, status), do:
-    %{rocket | fuel: rocket.fuel + add_fuel(rocket.mass, rocket.gravity, status), mass: rocket.fuel + add_fuel(rocket.mass, rocket.gravity, status)}
-    #|> Rocket.to_fuel(status)
+    %{rocket | fuel: rocket.fuel + add_fuel(rocket.mass, rocket.gravity, status), mass: rocket.mass + add_fuel(rocket.mass, rocket.gravity, status)}
+  
+  def fuel(rocket) do
+    rocket.new.fuel  
+  end
+
+  def new do
+    %__MODULE__{}
+  end
+
+  def new(rocket, status, fuel) when fuel > 0 do
+    %__MODULE__{rocket | fuel: add_fuel(rocket.mass, rocket.gravity, status), mass: rocket.mass + add_fuel(rocket.mass, rocket.gravity, status)}
+   #|> Rocket.new(status, fuel - add_fuel(rocket.mass, rocket.gravity, status))
+  end
+
 
   @doc """
   Use a pattern matching algorith to get the fuel based on gravity
@@ -85,3 +98,4 @@ end
 
 #Rocket.create(0, 28801, :moon) |> Rocket.to_fuel("B") → %Rocket{fuel: 1926, gravity: :moon, mass: 1926}
 
+#Rocket.create(0, 28801, :earth) |> Rocket.new("A", 1) → %Rocket{fuel: 9278, gravity: :earth, mass: 38079}
