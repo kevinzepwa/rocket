@@ -65,12 +65,13 @@ end
 # Rocket.create(0, 28801, :earth) |> Rocket.simulate("A") →  9278
 
 # for Apollo 11 CSM to launch from moon:
-# Rocket.create(0, 28801, :moon) |> Rocket.simulate("B") → 1926
+# Rocket.create(0, 28801, :moon) |> Rocket.Simulate.simulate("B") → 1926
 
-#Rocket.create(0, 28801, :moon) |> Rocket.to_fuel("B") → %Rocket{fuel: 1926, gravity: :moon, mass: 1926}
+#Rocket.create(0, 28801, :moon) |> Rocket.Apply_status.to_fuel("B") → %Rocket{fuel: 1926, gravity: :moon, mass: 1926}
 
-#Rocket.create(0, 28801, :earth) |> Rocket.final("A", 1) → %Rocket{fuel: 9278, gravity: :earth, mass: 38079}
+#Rocket.create(0, 28801, :earth) |> Rocket.final("A", 1) → [9278]  ...returns first fuel value
 
 
 #Rocket.create(0, 28801, :earth) |> Rocket.final("A", 5) → 9278, 12238, 13153, 13407,13447, :ok    ....the last value needed is 13447
 
+#...remaining how to extract the larget value from the list.
