@@ -24,76 +24,38 @@ defmodule Rocket do
 
   def create(fuel, mass, gravity), do: %Rocket{fuel: fuel, mass: mass, gravity: gravity}
 
-  @doc """
-  Give the instructions based on the status to calculate the rocket fuel. Valid instructions are: land given as "A", and launch given as "B"
-  """
-  def simulate(rocket, status) do
-    status
-    |> String.graphemes()
-    |> Enum.reduce_while(rocket, fn status, rocket ->
-      case apply_status(rocket, status) do
-        {:error, _} = error -> {:halt, error}
-        rocket -> {:cont, rocket}
-      end
-    end)
-  end
-
-  @doc """
-  Apply the functionality for landing and launching.
-  """
-  def apply_status(rocket, status), do:
-    add_fuel(rocket.mass, rocket.gravity, status)
-
-  def fuel_and_mass(rocket, status), do:
-    %{rocket | mass: rocket.mass + add_fuel(rocket.mass, rocket.gravity, status)}
-
-  # returns new rocket mass and fuel
-  def to_fuel(rocket, status), do:
-    %{rocket | fuel: rocket.fuel + add_fuel(rocket.mass, rocket.gravity, status), mass: rocket.mass + add_fuel(rocket.mass, rocket.gravity, status)}
-
   # returns the new final fuel needed in a stepwise fashion including the additional fuel
-  def new do
+  def final do
     %__MODULE__{}
   end
 
-  def new(rocket, status, k) when k > 0 do
+  def final(rocket, status, k) when k > 0 do
     list = []
     sortit = %__MODULE__{rocket | fuel: rocket.fuel + add_fuel(rocket.mass, rocket.gravity, status), mass: add_fuel(rocket.mass, rocket.gravity, status)}
     
     IO.inspect(list ++ [rocket.fuel + add_fuel(rocket.mass, rocket.gravity, status)])
         
-    new(sortit, status, k - 1)
+    final(sortit, status, k - 1)
   end
 
-  def new(rocket, status, 0) do
+  def final(rocket, status, 0) do
       :ok
   end
-
-  def fuel_list(new) do
-    Rocket.new
-  end
-
 
   @doc """
   Use a pattern matching algorith to get the fuel based on gravity
   """  
   # landing
   def add_fuel(mass, :earth, "A"), do: (mass * 9.807 * 0.033 - 42 |> trunc())
-  def add_fuel(mass, :moon, "A"), do: (mass * 1.62 * 0.033 - 42 |> trunc())
-  def add_fuel(mass, :mars, "A"), do: (mass * 3.711 * 0.033 - 42 |> trunc())
+  
+  def add_fuel(mass, :moon, "A"), do: ((mass * 1.62 * 0.033 - 42) + (mass * 9.807 * 0.042 - 33) + (mass * 9.807 * 0.033 - 42)  |> trunc())
+  
+  def add_fuel(mass, :mars, "A"), do: ((mass * 3.711 * 0.033 - 42) + (mass * 9.807 * 0.042 - 33) + (mass * 9.807 * 0.033 - 42) |> trunc())
 
   # launching
   def add_fuel(mass, :earth, "B"), do: (mass * 9.807 * 0.042 - 33 |> trunc())
   def add_fuel(mass, :moon, "B"), do: (mass * 1.62 * 0.042 - 33  |> trunc())
   def add_fuel(mass, :mars, "B"), do: (mass * 3.711 * 0.042 - 33 |> trunc())
-
-  @doc """
-  Extra fuel mass needed given that adding fuel increases the mass of the ship. 
-  """ 
-  
-  # def recurse(rocket, apply_status, add_fuel, simulate, status) when simulate > 0, 
-    # do:  %{rocket | mass: add_fuel(rocket.mass, rocket.gravity, status)}
-    # recurse(rocket, apply_status, add_fuel, (simulate - add_fuel(rocket.mass, rocket.gravity, status)), status)
 end
 
 
@@ -107,7 +69,8 @@ end
 
 #Rocket.create(0, 28801, :moon) |> Rocket.to_fuel("B") → %Rocket{fuel: 1926, gravity: :moon, mass: 1926}
 
-#Rocket.create(0, 28801, :earth) |> Rocket.new("A", 1) → %Rocket{fuel: 9278, gravity: :earth, mass: 38079}
+#Rocket.create(0, 28801, :earth) |> Rocket.final("A", 1) → %Rocket{fuel: 9278, gravity: :earth, mass: 38079}
 
 
-#Rocket.create(0, 28801, :earth) |> Rocket.new("A", 5) → 9278, 12238, 13153, 13407,13447, :ok    ....the last value needed is 13447
+#Rocket.create(0, 28801, :earth) |> Rocket.final("A", 5) → 9278, 12238, 13153, 13407,13447, :ok    ....the last value needed is 13447
+
