@@ -67,6 +67,17 @@ defmodule Rocket do
   def add_fuel(mass, :earth, "B"), do: (mass * 9.807 * 0.042 - 33) |> trunc()
   def add_fuel(mass, :moon, "B"), do: (mass * 1.62 * 0.042 - 33) |> trunc()
   def add_fuel(mass, :mars, "B"), do: (mass * 3.711 * 0.042 - 33) |> trunc()
+
+  def total_fuel(mass, [
+        {:launch, return_gravity},
+        {:land, destination_gravity},
+        {:launch, destination_gravity},
+        {:land, return_gravity}
+      ]) do
+    destination_launch_fuel(mass, destination_gravity) +
+      destination_land_fuel(mass, destination_gravity) + return_launch_fuel(mass, return_gravity) +
+      return_land_fuel(mass, return_gravity)
+  end
 end
 
 # example for Apollo 11 Command and Service Module, with a weight of 28801 kg, to land it on the Earth, the required amount of fuel will be:
