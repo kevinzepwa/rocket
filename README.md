@@ -1,21 +1,18 @@
 # Rocket
+Rocket is a sample NASA software for calculating fuel needed to launch and land a ship of given mass depending on the gravity of the planet.
+Formula to calculate fuel is quite simple. The planets NASA is interested in are:
+    • Earth - 9.807 m/s2
+    • Moon - 1.62 m/s2
+    • Mars - 3.711 m/s2
+The formula for fuel calculations for the launch is the following:
+mass * gravity * 0.042 - 33 rounded down
 
-**TODO: Add description**
+The formula for fuel calculations for the landing is the following:
+mass * gravity * 0.033 - 42 rounded down 
 
-## Installation
+But fuel adds weight to the ship, so it requires additional fuel, until additional fuel is 0 or negative. Therefore, this software does the heavy lifting by simplifing this recursive process and gives you the required total fuel for a full mission.
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `rocket` to your list of dependencies in `mix.exs`:
+For instance, a program to launch the ship from the Earth, land it on the Moon, and return back to the Earth, you will run:
 
-```elixir
-def deps do
-  [
-    {:rocket, "~> 0.1.0"}
-  ]
-end
-```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/rocket](https://hexdocs.pm/rocket).
+Rocket.total_fuel(28801, [{:launch, 9.807}, {:land, 1.62}, {:launch, 1.62}, {:land, 9.807}]), and the output will be → 36778.
 
