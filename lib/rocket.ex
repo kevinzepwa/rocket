@@ -13,7 +13,7 @@ defmodule Rocket do
   @spec total_fuel(float(), [
           {:launch, float()},
           {:land, float()},
-          {:launch, float()}, 
+          {:launch, float()},
           {:land, float()}
         ]) :: integer()
   def total_fuel(mass, [
@@ -25,5 +25,5 @@ defmodule Rocket do
     destination_launch_fuel(mass, destination_gravity) +
       destination_land_fuel(mass, destination_gravity) + return_launch_fuel(mass, return_gravity) +
       return_land_fuel(mass, return_gravity)
-  end   
+  end
 end
