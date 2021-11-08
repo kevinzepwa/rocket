@@ -39,18 +39,18 @@ defmodule Rocket.Fuel do
     calculate_fuel({initial_fuel, initial_fuel}, return_gravity, 0.033, 42)
   end
 
-  defp calculate_fuel({_last_fuel, current_fuel}, _gravity, _constine, _mostine)
-       when current_fuel <= 0 do
+  defp calculate_fuel({_last_fuel, current_fuel}, _gravity, _const_1, _const_2)
+      when current_fuel <= 0 do
     0
   end
 
-  defp calculate_fuel({_last_fuel, current_fuel}, gravity, constine, mostine) do
-    returned_fuel = trunc(current_fuel * gravity * constine - mostine)
-    current_fuel + calculate_fuel({current_fuel, returned_fuel}, gravity, constine, mostine)
+  defp calculate_fuel({_last_fuel, current_fuel}, gravity, const_1, const_2) do
+    returned_fuel = trunc(current_fuel * gravity * const_1 - const_2)
+    current_fuel + calculate_fuel({current_fuel, returned_fuel}, gravity, const_1, const_2)
   end
 
-  defp initial_fuel(mass, gravity, constine, mostine) do
-    (mass * gravity * constine - mostine)
+  defp initial_fuel(mass, gravity, const_1, const_2) do
+    (mass * gravity * const_1 - const_2)
     |> trunc()
   end
 end
