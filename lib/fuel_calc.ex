@@ -40,7 +40,7 @@ defmodule Rocket.Fuel do
   end
 
   defp calculate_fuel({_last_fuel, current_fuel}, _gravity, _const_1, _const_2)
-      when current_fuel <= 0 do
+       when current_fuel <= 0 do
     0
   end
 
